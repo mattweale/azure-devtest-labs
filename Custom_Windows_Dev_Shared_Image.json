@@ -1,0 +1,107 @@
+{
+    "type": "Microsoft.VirtualMachineImages/imageTemplates",
+    "apiVersion": "2020-02-14",
+    "location": "uksouth",
+    "dependsOn": [],
+    "tags": {
+        "imagebuilderTemplate": "windows10",
+        "userIdentity": "enabled"
+            },
+        "identity": {
+            "type": "UserAssigned",
+                    "userAssignedIdentities": {
+                    "<imgBuilderId>": {}                      
+                }
+                },
+    "properties": {
+
+        "buildTimeoutInMinutes" : 240,
+
+        "vmProfile": 
+                {
+                "vmSize": "Standard_D5_v2",
+                "osDiskSizeGB": 127
+                },
+        
+        "source": {
+            "type": "PlatformImage",
+                "publisher": "MicrosoftWindowsDesktop",
+                "offer": "windows-10",
+                "sku": "rs5-enterprisen-standard",
+                "version": "latest"
+            
+        },
+        "customize": [
+            {
+                "type": "PowerShell",
+                "name": "settingUpMgmtAgtPath",
+                "runElevated": false,
+                "inline": [
+                    "mkdir c:\\buildActions",
+                    "mkdir c:\\buildArtifacts",
+                    "mkdir c:\\python",
+                    "echo Azure-Image-Builder-Was-Here  > c:\\buildActions\\buildActionsOutput.txt"
+                ]
+            },
+            {
+                "type": "File",
+                "name": "downloadWindowsPacketManager",
+                "sourceUri": "https://github.com/microsoft/winget-cli/releases/download/v1.0.11692/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle",
+                "destination": "c:\\buildArtifacts\\winget.msixbundle"
+            },
+                {
+                "type": "PowerShell",
+                "name": "installWindowsPackageManager",
+                "runElevated": false,
+                "inline": [
+                    "Add-AppPackage -path C:\\buildArtifacts\\winget.msixbundle"
+                ]
+            },
+            {
+                "type": "File",
+                "name": "downloadPython",
+                "sourceUri": "https://www.python.org/ftp/python/3.9.6/python-3.9.6-amd64.exe",
+                "destination": "c:\\buildArtifacts\\python-3.9.6-amd64.exe"
+            },
+                {
+                "type": "PowerShell",
+                "name": "installPython",
+                "runElevated": false,
+                "inline": [
+                    "c:\\buildArtifacts\\python-3.9.6-amd64.exe /quiet InstallAllUsers=1 TargetDir=C:\\python PrependPath=1",
+                    "setx PATH 'C:\\python;%PATH%'"
+                ]
+            },
+            {
+                "type": "File",
+                "name": "downloadGit",
+                "sourceUri": "https://github.com/git-for-windows/git/releases/download/v2.32.0.windows.2/Git-2.32.0.2-64-bit.exe",
+                "destination": "c:\\buildArtifacts\\Git-2.32.0.2-64-bit.exe"
+            },
+            {
+                "type": "PowerShell",
+                "name": "installGit",
+                "runElevated": false,
+                "inline": [
+                    "c:\\buildArtifacts\\Git-2.32.0.2-64-bit.exe /VERYSILENT /NORESTART",
+                    "setx PATH 'C:\\Program Files\\Git;%PATH%'"
+                ]
+            }
+        ],
+        "distribute": 
+            [
+                {   "type":"SharedImage",
+                    "galleryImageId": "/subscriptions/5545c350-5947-4001-8f12-d2e422addb7d/resourceGroups/rg-set-dev-demo/providers/Microsoft.Compute/galleries/setSIG/images/win10DevDesktop",
+                    "location": "uksouth",
+                    "runOutputName": "aibWindowsDevDemo",
+                    "artifactTags": {
+                        "source": "azVmImageBuilder",
+                        "baseosimg": "Windows10RS5Ent"
+                    },
+                    "replicationRegions": [
+                        "ukwest"
+                      ]
+                }
+            ]
+        }
+}
