@@ -9,11 +9,11 @@
 
 The purpose of this Terraform module is to deploy various infrastructure components around Azure DevTest Labs to demonstrate how a developer might interact with and use the platform.
 
-This module deploy a single vNET with two subnets, one for Bastion and one for VMs. A Shared Image Gallery is deployed which is used to distribute a Custom Image to that is built using Azure Image Builder. The Custom Image is built from Windows 10 Ent Gallery Image with Winget, Python and Git installed to demonstrate capability. A Storage Account is deployed with an SMB Share to be mounted on the Developer VM.
+This module deploys a single vNET with two subnets, one for Bastion and one for VMs. A Shared Image Gallery is deployed which is used to distribute a Custom Image to that is built using Azure Image Builder. The Custom Image is built from Windows 10 Ent Gallery Image with Python and Git installed to demonstrate capability. A Storage Account is deployed with an SMB Share to be mounted on the Developer VM.
 
 A DevTest Labs instance is deployed.
 
-Note that will store state locally, so a "backlend" block will need to be included to store state remotely.
+Note that this will store state locally, so a "backlend" block will need to be included to store state remotely.
 
 # Deployment
 
@@ -99,3 +99,30 @@ Delete the rg-set-dev-demo resource groups This may take up to 30 minutes to com
 In Cloud Shell, delete the azure-devtest-labs directory:
 
 `rm -rf azure-devtest-labs`
+
+## Notes
+
+I have found AIB to fail intermittently, the customizations in the Image Build are minimal:
+  - Powershell Customizer: Make Directory [buildActions, buildArtifacts, Python] & pipe some comments into txt file for demonstration purposes;
+  - File Customizer: Get Winget [But do not install. File is in C:\buildArtifacts];
+  - File Customizer: Get Python;
+  - Powershell Customizer: Install Python and set path;
+  - File Customizer: Get Git;
+  - Powershell Customizer: Install Git and set path;
+
+When the image build is running, logs are created, and stored in a storage account in the temporary Resource Group (RG), that AIB creates when you create an Image Template artifact.
+
+- IT_<ImageResourceGroupName>_<TemplateName>_<GUID>
+
+For example, this would be:
+
+IT_rg-set-dev-demo_dtlWinDevDemo_251a920c-64c0-46c2-8604-36092f36f87c
+
+Go to the RG > Storage Account > Blobs > packerlogs > click on the directory > customization.log
+
+For a better understanding of the log, see here:
+
+https://github.com/danielsollondon/azvmimagebuilder/blob/master/troubleshootingaib.md#understanding-the-customization-log 
+
+As failures have been intermittent I have increased the size of the Build VM [to a Standard_D5_v2], increased the Build Timeout [to 300 mins] and
+included a 60s PowerShell sleep customization. Indeed since adding the 60 sleep, have had 3 successful builds in a row! :-)
