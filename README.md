@@ -22,7 +22,7 @@ Pre-requisites:
   - To use Azure Image Builder, you need to register the feature:
 
   `az provider show -n Microsoft.VirtualMachineImages | grep registrationState`
-  
+
   `az provider register -n Microsoft.VirtualMachineImages`
 
 Steps:
@@ -75,17 +75,24 @@ A number of things aren't supported in the Terraform Provider or the Az CLI and 
   - Add Virtual Network to DevTest Lab: DevTest Labs >> dlt-demo >> Configuration and Policies >> Virtual Networks >> Add;
   - Then need to add the Subnet to "Use in virtual machine creation";
   - Create Claimable VMs in DevTest Lab [Can demonstrate this live and include Artifacts like VSCode];
-  - Will need to map network drive in VM, without AAD or AADDS Integration with Azure Files you use Storage Account name as username and primary key as the password. You can get the PS Script from Storage Accounts >> sadltdemo >> demo-share >> Connect:
+  - Will need to map network drive in VM, without AAD or AADDS Integration with Azure Files you use Storage Account name as username and primary key as the password. You can get the PS Script from Storage Accounts >> sadltdemo >> demo-share >> Connect. You need to replace 'StorageKey' in the code block below:
 
-  $connectTestResult = Test-NetConnection -ComputerName sadtldemo.file.core.windows.net -Port 445
+```
+
+$connectTestResult = Test-NetConnection -ComputerName sadtldemo.file.core.windows.net -Port 445
 if ($connectTestResult.TcpTestSucceeded) {
     # Save the password so the drive will persist on reboot
-    cmd.exe /C "cmdkey /add:`"sadtldemo.file.core.windows.net`" /user:`"localhost\sadtldemo`" /pass:`<PrimaryKey>`""
+    cmd.exe /C "cmdkey /add:`"sadtldemo.file.core.windows.net`" 
+    /user:`"localhost\sadtldemo`" 
+    /pass:`"<StorageKey>`""
     # Mount the drive
-    New-PSDrive -Name Z -PSProvider FileSystem -Root "\\sadtldemo.file.core.windows.net\demo-share" -Persist
+New-PSDrive -Name Z -PSProvider FileSystem -Root
+"\\sadtldemo.file.core.windows.net\demo-share" -Persist
 } else {
     Write-Error -Message "Unable to reach the Azure storage account via port 445. Check to make sure your organization or ISP is not blocking port 445, or use Azure P2S VPN, Azure S2S VPN, or Express Route to tunnel SMB traffic over a different port."
 }
+
+```
 
 Verify these resources are present in the portal. Azure Image Builder deploys a number of resources to do the build, including a Storage Account and Container where the Packer Logs are [customization.log].
 
