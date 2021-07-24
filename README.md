@@ -83,7 +83,7 @@ A number of things aren't supported in the Terraform Provider or the Az CLI and 
 $connectTestResult = Test-NetConnection -ComputerName samrw.file.core.windows.net -Port 445
 if ($connectTestResult.TcpTestSucceeded) {
     # Save the password so the drive will persist on reboot
-    cmd.exe /C "cmdkey /add:`"samrw.file.core.windows.net`" /user:`"localhost\samrw`" /pass:`"<StorageKey`""
+    cmd.exe /C "cmdkey /add:`"samrw.file.core.windows.net`" /user:`"localhost\samrw`" /pass:`"<StorageKey>`""
     # Mount the drive
     New-PSDrive -Name Z -PSProvider FileSystem -Root "\\samrw.file.core.windows.net\test" -Persist
 } else {
