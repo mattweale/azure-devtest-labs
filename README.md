@@ -118,7 +118,7 @@ I have found AIB to fail intermittently, the customizations in the Image Build a
 
 When the image build is running, logs are created, and stored in a storage account in the temporary Resource Group (RG), that AIB creates when you create an Image Template artifact.
 
-- IT_<ImageResourceGroupName>_<TemplateName>_<GUID>
+- IT_ImageResourceGroupName_TemplateName_GUID
 
 For example, this would be:
 
