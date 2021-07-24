@@ -74,20 +74,18 @@ A number of things aren't supported in the Terraform Provider or the Az CLI and 
   - Attach Shared Image Gallery to DevTest Lab: DevTest Labs >> dlt-demo >> Configuration and Policies >> Shared Image Gallery >> Attach;
   - Add Virtual Network to DevTest Lab: DevTest Labs >> dlt-demo >> Configuration and Policies >> Virtual Networks >> Add;
   - Then need to add the Subnet to "Use in virtual machine creation";
+  - Enable Browser Connect in the Lab to enable connections via Bastion;
   - Create Claimable VMs in DevTest Lab [Can demonstrate this live and include Artifacts like VSCode];
   - Will need to map network drive in VM, without AAD or AADDS Integration with Azure Files you use Storage Account name as username and primary key as the password. You can get the PS Script from Storage Accounts >> sadltdemo >> demo-share >> Connect. You need to replace 'StorageKey' in the code block below:
 
 ```
 
-$connectTestResult = Test-NetConnection -ComputerName sadtldemo.file.core.windows.net -Port 445
+$connectTestResult = Test-NetConnection -ComputerName samrw.file.core.windows.net -Port 445
 if ($connectTestResult.TcpTestSucceeded) {
     # Save the password so the drive will persist on reboot
-    cmd.exe /C "cmdkey /add:`"sadtldemo.file.core.windows.net`" 
-    /user:`"localhost\sadtldemo`" 
-    /pass:`"<StorageKey>`""
+    cmd.exe /C "cmdkey /add:`"samrw.file.core.windows.net`" /user:`"localhost\samrw`" /pass:`"<StorageKey`""
     # Mount the drive
-New-PSDrive -Name Z -PSProvider FileSystem -Root
-"\\sadtldemo.file.core.windows.net\demo-share" -Persist
+    New-PSDrive -Name Z -PSProvider FileSystem -Root "\\samrw.file.core.windows.net\test" -Persist
 } else {
     Write-Error -Message "Unable to reach the Azure storage account via port 445. Check to make sure your organization or ISP is not blocking port 445, or use Azure P2S VPN, Azure S2S VPN, or Express Route to tunnel SMB traffic over a different port."
 }
