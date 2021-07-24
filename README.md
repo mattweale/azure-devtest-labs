@@ -22,6 +22,7 @@ Pre-requisites:
   - To use Azure Image Builder, you need to register the feature:
 
   `az provider show -n Microsoft.VirtualMachineImages | grep registrationState`
+  
   `az provider register -n Microsoft.VirtualMachineImages`
 
 Steps:
