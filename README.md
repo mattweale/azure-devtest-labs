@@ -19,6 +19,12 @@ Note that this will store state locally, so a "backlend" block will need to be i
 
 Pre-requisites:
 
+  - This assumes that you have configured Terraform to use a Service Principal for Deployment:
+
+    'https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#configuring-the-service-principal-in-terraform'
+
+    'Export ARM_CLIENT_SECRET to the shell outside terraform.tfvars for security'
+
   - To use Azure Image Builder, you need to register the feature:
 
   `az provider show -n Microsoft.VirtualMachineImages | grep registrationState`
@@ -39,9 +45,13 @@ Steps:
   
   `git clone https://github.com/mattweale/azure-devtest-labs`
   
-  - Change directory:
+- Change directory:
   
   `cd ./azure-devtest-labs`
+
+- Update terraform.tfvars:
+  
+  `Update environment variables for ARM_TENANT_ID, ARM_SUBSCRIPTION_ID and ARM_CLIENT_ID'
 
   - Initialize terraform and download the azurerm resource provider:
 
