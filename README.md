@@ -19,13 +19,13 @@ Note that this will store state locally, so a "backlend" block will need to be i
 
 Pre-requisites:
 
-  - This assumes that you have configured Terraform to use a Service Principal for Deployment:
+- This assumes that you have configured Terraform to use a Service Principal for Deployment:
 
-    'https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#configuring-the-service-principal-in-terraform'
+  'https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#configuring-the-service-principal-in-terraform'
+  
+  'Export ARM_CLIENT_SECRET to the shell outside terraform.tfvars for security'
 
-    'Export ARM_CLIENT_SECRET to the shell outside terraform.tfvars for security'
-
-  - To use Azure Image Builder, you need to register the feature:
+- To use Azure Image Builder, you need to register the feature:
 
   `az provider show -n Microsoft.VirtualMachineImages | grep registrationState`
 
