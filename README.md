@@ -51,7 +51,7 @@ Steps:
 
 - Update terraform.tfvars:
   
-  `Update environment variables for ARM_TENANT_ID, ARM_SUBSCRIPTION_ID and ARM_CLIENT_ID'
+  `Update environment variables for ARM_TENANT_ID, ARM_SUBSCRIPTION_ID and ARM_CLIENT_ID`
 
   - Initialize terraform and download the azurerm resource provider:
 
