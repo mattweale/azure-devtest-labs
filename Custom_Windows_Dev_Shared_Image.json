@@ -10,7 +10,7 @@
         "identity": {
             "type": "UserAssigned",
                     "userAssignedIdentities": {
-                    "/subscriptions/5545c350-5947-4001-8f12-d2e422addb7d/resourcegroups/rg-set-dev-demo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aibBuiUserId-bb0cb439-d6bc-529b-a907-7c2260e07444": {}                      
+                    "<imgBuilderId>": {}                      
                 }
                 },
     "properties": {
