@@ -1,0 +1,17 @@
+Run these pre-reqs for WSL:
+	
+	Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -all -NoRestart
+                
+	Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -all -NoRestart
+                
+Need to reboot before applying WSL Kernel Update then:
+	
+	Start-Process msiexec.exe -Wait -ArgumentList "I C:\\buildArtifacts\\wsl-update.msi /quiet /passive /norestart"
+
+Install Ubuntu:
+
+	Add-AppxPackage -path C:\\buildArtifacts\\Ubuntu-2004.appx
+
+Command Line for Windows Terminal Profile: wsl.exe -d Ubuntu-18.04 
+
+Install VSCode and Postman from buildArtifacts

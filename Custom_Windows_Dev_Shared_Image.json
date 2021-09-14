@@ -40,20 +40,31 @@
                     "mkdir c:\\buildActions",
                     "mkdir c:\\buildArtifacts",
                     "mkdir c:\\python",
-                    "echo Azure-Image-Builder-Was-Here  > c:\\buildActions\\buildActionsOutput.txt"
+                    "echo Azure-Image-Builder-Was-Here > c:\\buildActions\\buildActionsOutput.txt"
+                ]
+            },
+            {
+                "type": "PowerShell",
+                "name": "downloadSoftwareArtifacts",
+                "runElevated": false,
+                "inline": [
+                    "wget 'https://www.python.org/ftp/python/3.9.6/python-3.9.6-amd64.exe' -outfile 'C:\\buildArtifacts\\python-3.9.6-amd64.exe'",
+                    "wget 'https://github.com/git-for-windows/git/releases/download/v2.32.0.windows.2/Git-2.32.0.2-64-bit.exe' -outfile 'C:\\buildArtifacts\\Git-2.32.0.2-64-bit.exe'",
+                    "wget 'https://aka.ms/installazurecliwindows' -outfile 'C:\\buildArtifacts\\azure-cli.msi'",
+                    "wget 'https://github.com/microsoft/terminal/releases/download/v1.10.1933.0/Microsoft.WindowsTerminalPreview_1.10.1933.0_8wekyb3d8bbwe.msixbundle' -outfile 'C:\\buildArtifacts\\windows-terminal.msixbundle'",
+                    "wget 'https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi' -outfile 'C:\\buildArtifacts\\wsl-update.msi'",
+                    "wget 'https://aka.ms/wslubuntu2004' -outfile 'C:\\buildArtifacts\\Ubuntu-2004.appx'",
+                    "wget 'https://desktop.docker.com/win/stable/amd64/Docker%20Desktop%20Installer.exe?utm_source=docker&utm_medium=webreferral&utm_campaign=dd-smartbutton&utm_location=header' -outfile 'C:\\buildArtifacts\\docker-desktop.exe'",
+                    "wget 'https://go.microsoft.com/fwlink/?LinkId=708343&clcid=0x409' -outfile 'C:\\buildArtifacts\\storage-explorer.exe'",
+                    "wget 'https://dl.pstmn.io/download/latest/win64' -outfile 'C:\\buildArtifacts\\postman.exe'",
+                    "wget 'https://aka.ms/win32-x64-user-stable' -outfile 'C:\\buildArtifacts\\vscode.exe'"    
                 ]
             },
             {
                 "type": "File",
-                "name": "downloadWindowsPacketManager",
-                "sourceUri": "https://github.com/microsoft/winget-cli/releases/download/v1.0.11692/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle",
-                "destination": "c:\\buildArtifacts\\winget.msixbundle"
-            },
-            {
-                "type": "File",
-                "name": "downloadPython",
-                "sourceUri": "https://www.python.org/ftp/python/3.9.6/python-3.9.6-amd64.exe",
-                "destination": "c:\\buildArtifacts\\python-3.9.6-amd64.exe"
+                "name": "downloadWSLSetup",
+                "sourceUri": "https://samrw.blob.core.windows.net/azure-image-builder/wsl-setup.txt",
+                "destination": "c:\\buildArtifacts\\wsl-setup.txt"
             },
                 {
                 "type": "PowerShell",
@@ -63,12 +74,6 @@
                     "c:\\buildArtifacts\\python-3.9.6-amd64.exe /quiet InstallAllUsers=1 TargetDir=C:\\python PrependPath=1",
                     "setx PATH 'C:\\python;%PATH%'"
                 ]
-            },
-            {
-                "type": "File",
-                "name": "downloadGit",
-                "sourceUri": "https://github.com/git-for-windows/git/releases/download/v2.32.0.windows.2/Git-2.32.0.2-64-bit.exe",
-                "destination": "c:\\buildArtifacts\\Git-2.32.0.2-64-bit.exe"
             },
             {
                 "type": "PowerShell",
@@ -81,11 +86,33 @@
             },
             {
                 "type": "PowerShell",
-                "name": "Wait",
+                "name": "installAzureCLI",
                 "runElevated": false,
                 "inline": [
-                    "Start-Sleep -s 60"
+                    "Start-Process msiexec.exe -Wait -ArgumentList '/I C:\\buildArtifacts\\azure-cli.msi /quiet /passive /norestart'"
                 ]
+            }, 
+            {
+                "type": "PowerShell",
+                "name": "installAzureStorageExplorer",
+                "runElevated": false,
+                "inline": [
+                    "C:\\buildArtifacts\\storage-explorer.exe /NORESTART /VERYSILENT /ALLUSERS"
+                    ]
+            },
+            {
+                "type": "PowerShell",
+                "name": "installWindowsTerminal",
+                "runElevated": false,
+                "inline": [
+                    "Add-AppxPackage C:\\buildArtifacts\\windows-terminal.msixbundle"
+                    ]
+            },
+            {
+                "type": "WindowsRestart",
+                "restartCommand": "shutdown /r /f /t 0", 
+                "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > C:\\buildArtifacts\\azureImageBuilderRestart.txt",
+                "restartTimeout": "1m"
             }
         ],
         "distribute": 
