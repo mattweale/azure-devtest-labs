@@ -10,7 +10,7 @@
         "identity": {
             "type": "UserAssigned",
                     "userAssignedIdentities": {
-                    "<imgBuilderId>": {}                      
+                    "/subscriptions/5545c350-5947-4001-8f12-d2e422addb7d/resourcegroups/rg-set-dev-demo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aibBuiUserId-bb0cb439-d6bc-529b-a907-7c2260e07444": {}                      
                 }
                 },
     "properties": {
@@ -27,7 +27,7 @@
             "type": "PlatformImage",
                 "publisher": "MicrosoftWindowsDesktop",
                 "offer": "windows-10",
-                "sku": "rs5-enterprisen-standard",
+                "sku": "21h1-pro",
                 "version": "latest"
             
         },
@@ -57,16 +57,11 @@
                     "wget 'https://desktop.docker.com/win/stable/amd64/Docker%20Desktop%20Installer.exe?utm_source=docker&utm_medium=webreferral&utm_campaign=dd-smartbutton&utm_location=header' -outfile 'C:\\buildArtifacts\\docker-desktop.exe'",
                     "wget 'https://go.microsoft.com/fwlink/?LinkId=708343&clcid=0x409' -outfile 'C:\\buildArtifacts\\storage-explorer.exe'",
                     "wget 'https://dl.pstmn.io/download/latest/win64' -outfile 'C:\\buildArtifacts\\postman.exe'",
-                    "wget 'https://aka.ms/win32-x64-user-stable' -outfile 'C:\\buildArtifacts\\vscode.exe'"    
+                    "wget 'https://aka.ms/win32-x64-user-stable' -outfile 'C:\\buildArtifacts\\vscode.exe'",
+                    "wget 'https://github.com/mattweale/azure-devtest-labs/blob/main/wsl-setup.txt' -outfile 'C:\\buildArtifacts\\wsl-setup.txt'"
                 ]
             },
             {
-                "type": "File",
-                "name": "downloadWSLSetup",
-                "sourceUri": "https://samrw.blob.core.windows.net/azure-image-builder/wsl-setup.txt",
-                "destination": "c:\\buildArtifacts\\wsl-setup.txt"
-            },
-                {
                 "type": "PowerShell",
                 "name": "installPython",
                 "runElevated": false,
@@ -123,7 +118,7 @@
                     "runOutputName": "aibWindowsDevDemo",
                     "artifactTags": {
                         "source": "azVmImageBuilder",
-                        "baseosimg": "Windows10RS5Ent"
+                        "baseosimg": "Windows10Pro21H1"
                     },
                     "replicationRegions": [
                         "ukwest"

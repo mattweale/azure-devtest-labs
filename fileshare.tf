@@ -2,7 +2,7 @@
 ## Create Storage Account
 #######################################################################
 resource "azurerm_storage_account" "sa_dtl" {
-  name                     = "sadtldemo"
+  name                     = "sadtldemofs"
   resource_group_name      = azurerm_resource_group.rg_dev_test_labs.name
   location                 = var.location
   account_tier             = "Standard"
