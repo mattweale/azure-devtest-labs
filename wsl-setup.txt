@@ -12,6 +12,6 @@ Install Ubuntu:
 
 	Add-AppxPackage -path C:\\buildArtifacts\\Ubuntu-2004.appx
 
-Command Line for Windows Terminal Profile: wsl.exe -d Ubuntu-18.04 
+Command Line for Windows Terminal Profile: wsl.exe -d Ubuntu-20.04 
 
 Install VSCode and Postman from buildArtifacts
