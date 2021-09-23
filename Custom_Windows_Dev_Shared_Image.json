@@ -58,7 +58,7 @@
                     "wget 'https://go.microsoft.com/fwlink/?LinkId=708343&clcid=0x409' -outfile 'C:\\buildArtifacts\\storage-explorer.exe'",
                     "wget 'https://dl.pstmn.io/download/latest/win64' -outfile 'C:\\buildArtifacts\\postman.exe'",
                     "wget 'https://aka.ms/win32-x64-user-stable' -outfile 'C:\\buildArtifacts\\vscode.exe'",
-                    "wget 'https://github.com/mattweale/azure-devtest-labs/blob/main/wsl-setup.txt' -outfile 'C:\\buildArtifacts\\wsl-setup.txt'"
+                    "wget 'https://gist.githubusercontent.com/mattweale/02d0006aebae5cf2e2197210b7ec6abe/raw/ec1eec73a0083df5a25ad9c2937e68ed9cca37a0/aib-wsl-setup.txt' -outfile 'C:\\buildArtifacts\\wsl-setup.txt'"
                 ]
             },
             {
