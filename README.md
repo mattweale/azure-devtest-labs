@@ -67,6 +67,8 @@ Currently Azure Image Builder is not supported in the AzureRM Provider. This has
 
 ![image](images/imgBuilderId.png)
 
+Some DevTest Labs capability is not supported either the AzureRM Provider or the Az CLI so I have used an ARM Template to deploy the DT Lab, attach the Shared Image Gallery, Add the existing VNet to the Lab and then enable the Subnet to be used in "virtual machine creation".
+
 ## Explore and verify
 
 After the Terraform deployment concludes successfully, the following has been deployed into your subscription:
@@ -81,9 +83,6 @@ After the Terraform deployment concludes successfully, the following has been de
 ## Backlog
 
 A number of things aren't supported in the Terraform Provider or the Az CLI and will need to be manually for the time being, am investigating whether they are supported in PS that can be exectued with local-exec provisioner:
-  - Attach Shared Image Gallery to DevTest Lab: DevTest Labs >> dlt-demo >> Configuration and Policies >> Shared Image Gallery >> Attach;
-  - Add Virtual Network to DevTest Lab: DevTest Labs >> dlt-demo >> Configuration and Policies >> Virtual Networks >> Add;
-  - Then need to add the Subnet to "Use in virtual machine creation";
   - Enable Browser Connect in the Lab to enable connections via Bastion;
   - Create Claimable VMs in DevTest Lab [Can demonstrate this live and include Artifacts like VSCode];
   - Will need to map network drive in VM, without AAD or AADDS Integration with Azure Files you use Storage Account name as username and primary key as the password. You can get the PS Script from Storage Accounts >> sadltdemo >> demo-share >> Connect. You need to replace 'StorageKey' in the code block below:

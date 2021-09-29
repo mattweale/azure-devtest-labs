@@ -7,8 +7,8 @@ resource "azurerm_shared_image_gallery" "sig_set_dev_demo" {
   location            = var.location
   description         = "SET Developer Environment Demo SIG"
 
-    tags              = var.tags  
-  }
+  tags = var.tags
+}
 
 #######################################################################
 ## Create Image Defintion in SIG

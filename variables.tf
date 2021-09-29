@@ -52,12 +52,16 @@ variable "aib_prefix" {
   description = "Prefix for AIB User"
   default     = "satest"
 }
-variable "sa-name" {
+variable "sa_name" {
   description = "Name of Storage Account"
   default     = "satest"
 }
-variable "sa-key" {
+variable "sa_key" {
   description = "Key of Storage Account"
   default     = ""
   #sensitive   = true
+}
+variable "lab_name" {
+  description = "Name of DevTest Lab"
+  default     = "dtl-demo"
 }

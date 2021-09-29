@@ -12,7 +12,7 @@ resource "random_uuid" "mi_uid" {
 resource "azurerm_user_assigned_identity" "dtl_mi" {
   resource_group_name = azurerm_resource_group.rg_dev_test_labs.name
   location            = var.location
-  name = "aibBuiUserId-${random_uuid.mi_uid.result}"
+  name                = "aibBuiUserId-${random_uuid.mi_uid.result}"
 }
 
 #######################################################################
@@ -22,4 +22,4 @@ resource "azurerm_role_assignment" "ra_aib_mi" {
   scope                = azurerm_resource_group.rg_dev_test_labs.id
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.dtl_mi.principal_id
-  }
+}

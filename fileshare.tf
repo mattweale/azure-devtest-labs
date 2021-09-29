@@ -13,7 +13,7 @@ resource "azurerm_storage_account" "sa_dtl" {
   min_tls_version           = "TLS1_2"
   allow_blob_public_access  = false
 
-  tags                     = var.tags
+  tags = var.tags
 }
 
 #######################################################################
