@@ -85,7 +85,7 @@ After the Terraform deployment concludes successfully, the following has been de
 A number of things aren't supported in the Terraform Provider or the Az CLI and will need to be manually for the time being, am investigating whether they are supported in PS that can be exectued with local-exec provisioner:
   - Enable Browser Connect in the Lab to enable connections via Bastion;
   - Create Claimable VMs in DevTest Lab [Can demonstrate this live and include Artifacts like VSCode];
-  - Will need to map network drive in VM, without AAD or AADDS Integration with Azure Files you use Storage Account name as username and primary key as the password. You can get the PS Script from Storage Accounts >> sadltdemo >> demo-share >> Connect. You need to replace 'StorageKey' in the code block below:
+  - Will need to map network drive in VM, without AAD or AADDS Integration with Azure Files you use Storage Account name as username and primary key as the password. You can get the PS Script from Storage Accounts >> sadltdemo >> demo-share >> Connect. You need to replace 'StorageKey' and confirm the Storage Account Prefix in the code block below:
 
 ```
 
@@ -104,7 +104,7 @@ if ($connectTestResult.TcpTestSucceeded) {
 Verify these resources are present in the portal. Azure Image Builder deploys a number of resources to do the build, including a Storage Account and Container where the Packer Logs are [customization.log].
 
 Credentials for the VMs are:
-- User name: dev-user
+- User name: devuser
 - Password: Pa55w0rd123!
 
 ## Delete all resources
